@@ -93,9 +93,13 @@ public final class Lumio: Sendable {
     }
 
     /// Track the core "Aha!" action that defines user activation.
+    /// Only fires once per action name per device — subsequent calls are no-ops.
     ///
     /// - Parameter name: The action identifier (e.g., "expense_logged", "focus_session_completed").
     public func trackCoreAction(name: String) {
+        let key = "com.lumio.core_action_tracked.\(name)"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        UserDefaults.standard.set(true, forKey: key)
         let props = encode(["core_action": name])
         enqueue(eventName: "core_action", properties: props)
     }
