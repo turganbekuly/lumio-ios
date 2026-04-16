@@ -1,5 +1,9 @@
 import Foundation
 
+#if os(iOS)
+import UIKit
+#endif
+
 /// Protocol for device identification, allowing mock injection in tests.
 protocol DeviceIdentifying: Sendable {
     func identifier() -> String
