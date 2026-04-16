@@ -9,7 +9,7 @@ public struct Configuration: Sendable {
 
     public init(
         appKey: String,
-        endpoint: URL = URL(string: "https://api.trylumio.dev")!,
+        endpoint: URL = URL(string: "https://api.trylumio.app")!,
         flushInterval: TimeInterval = 30,
         flushThreshold: Int = 30
     ) {
