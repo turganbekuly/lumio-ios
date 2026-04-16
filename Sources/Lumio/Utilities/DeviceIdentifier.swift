@@ -8,7 +8,7 @@ protocol DeviceIdentifying: Sendable {
 /// Uses IDFV on iOS, falls back to a persistent UUID.
 struct DeviceIdentifier: DeviceIdentifying {
     func identifier() -> String {
-        #if canImport(UIKit)
+        #if os(iOS)
         if let idfv = UIDevice.current.identifierForVendor?.uuidString {
             return idfv
         }

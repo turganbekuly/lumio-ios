@@ -1,6 +1,6 @@
 import Foundation
 
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
 #endif
 
@@ -115,7 +115,7 @@ public final class Lumio: Sendable {
     // MARK: - Auto-Collection
 
     private func autoCollectProperties() {
-        #if canImport(UIKit) && !os(watchOS)
+        #if os(iOS)
         let platform: String
         switch UIDevice.current.userInterfaceIdiom {
         case .phone: platform = "iPhone"
