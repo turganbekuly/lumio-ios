@@ -71,10 +71,10 @@ Lumio.shared.identifyUser(property: "goal", value: "lose_weight")
 Initialize the SDK. Call once in `App.init()` or `application(_:didFinishLaunchingWithOptions:)`.
 
 ```swift
-Lumio.shared.configure(
-    appKey: "lm_your_key",              // Required — from your dashboard
-    endpoint: URL(string: "https://...") // Optional — for self-hosted backends
-)
+Lumio.shared.configure(appKey: "lm_your_key")
+
+// Self-hosted backend? Override the endpoint:
+// Lumio.shared.configure(appKey: "lm_your_key", endpoint: URL(string: "https://your-server.com")!)
 ```
 
 Auto-collects on configure:
@@ -165,7 +165,7 @@ Lumio.shared.flush()
 Purchases are tracked via RevenueCat webhooks (server-to-server) — no SDK code needed.
 
 1. In RevenueCat: **Project Settings → Integrations → Webhooks**
-2. URL: `https://your-api/v1/webhooks/revenuecat`
+2. URL: `https://api.trylumio.app/v1/webhooks/revenuecat`
 3. Auth header: `Bearer lm_your_key`
 4. Events: `INITIAL_PURCHASE`, `RENEWAL`
 
