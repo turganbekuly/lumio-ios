@@ -166,7 +166,7 @@ Purchases are tracked via RevenueCat webhooks (server-to-server) — no SDK code
 
 1. In RevenueCat: **Project Settings → Integrations → Webhooks**
 2. URL: `https://api.trylumio.app/v1/webhooks/revenuecat`
-3. Auth header: `Bearer lm_your_key`
+3. Auth header: `Bearer lm_whk_your_webhook_secret` (your per-app **webhook secret** from Lumio → Settings — *not* the public SDK app key)
 4. Events: `INITIAL_PURCHASE`, `RENEWAL`
 
 RevenueCat sends the user's IDFV as `app_user_id`, which Lumio uses to join purchases with SDK events.
