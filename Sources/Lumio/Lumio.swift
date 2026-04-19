@@ -39,7 +39,7 @@ public final class Lumio: Sendable {
     public func configure(appKey: String, endpoint: URL? = nil) {
         let config = Configuration(
             appKey: appKey,
-            endpoint: endpoint ?? URL(string: "https://api.lumio.io")!
+            endpoint: endpoint ?? URL(string: "https://api.trylumio.app")!
         )
         _config.withLock { $0 = config }
 
