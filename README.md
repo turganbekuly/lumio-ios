@@ -45,22 +45,27 @@ dependencies: [
 
 ```swift
 import Lumio
+import RevenueCat
 
 // 1. Configure (once, on app launch)
 Lumio.shared.configure(appKey: "lm_your_key_here")
 
-// 2. Track onboarding steps
+// 2. Tell RevenueCat to use the same user ID Lumio uses.
+//    Required so purchase webhooks land on the same user as your tracked events.
+Purchases.shared.logIn(Lumio.shared.userID) { _, _, _ in }
+
+// 3. Track onboarding steps
 Lumio.shared.trackStep(name: "welcome", order: 1)
 Lumio.shared.trackStep(name: "age_selection", order: 2)
 Lumio.shared.trackStep(name: "goal_setting", order: 3)
 
-// 3. Track paywall view
+// 4. Track paywall view
 Lumio.shared.trackPaywallView(name: "main_paywall")
 
-// 4. Track core activation action
+// 5. Track core activation action
 Lumio.shared.trackCoreAction(name: "first_session_completed")
 
-// 5. Tag users for cohort analysis (optional — source & platform are auto-collected)
+// 6. Tag users for cohort analysis (optional — source & platform are auto-collected)
 Lumio.shared.identifyUser(property: "goal", value: "lose_weight")
 ```
 
@@ -158,18 +163,27 @@ Lumio.shared.flush()
 2. **Sent via HTTPS** — `POST /v1/track` with your API key in the `X-App-Key` header
 3. **Retried on failure** — exponential backoff (1s, 4s, 16s), max 3 attempts
 4. **Persisted offline** — failed batches saved to disk, retried on next launch
-5. **User ID = IDFV** — same identifier RevenueCat uses, enabling server-side joins with purchase data
+5. **User ID** — Keychain-persisted UUID (seeded from IDFV on first launch). Survives app reinstalls on the same device in most cases. Pass `Lumio.shared.userID` to RevenueCat so purchases land on the same user.
 
 ## RevenueCat Integration
 
-Purchases are tracked via RevenueCat webhooks (server-to-server) — no SDK code needed.
+Purchases are tracked via RevenueCat webhooks (server-to-server) — no SDK code needed for revenue tracking itself, but you **must** align the user IDs so Lumio can join SDK events to purchases.
 
-1. In RevenueCat: **Project Settings → Integrations → Webhooks**
+**In your app**, right after `configure()`:
+
+```swift
+Lumio.shared.configure(appKey: "lm_your_key")
+Purchases.shared.logIn(Lumio.shared.userID) { _, _, _ in }
+```
+
+Without this, RevenueCat generates its own `$RCAnonymousID:…` and the join fails — you'll see one user with all your funnel events and a separate "user" with just the purchase.
+
+**In the RevenueCat dashboard**, set up the webhook:
+
+1. **Project Settings → Integrations → Webhooks**
 2. URL: `https://api.trylumio.app/v1/webhooks/revenuecat`
 3. Auth header: `Bearer lm_whk_your_webhook_secret` (your per-app **webhook secret** from Lumio → Settings — *not* the public SDK app key)
 4. Events: `INITIAL_PURCHASE`, `RENEWAL`
-
-RevenueCat sends the user's IDFV as `app_user_id`, which Lumio uses to join purchases with SDK events.
 
 ## License
 

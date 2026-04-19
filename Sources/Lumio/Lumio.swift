@@ -29,6 +29,21 @@ public final class Lumio: Sendable {
         self.deviceID = deviceID
     }
 
+    /// The stable per-user identifier Lumio uses for all events.
+    ///
+    /// Pass this to RevenueCat so purchase webhooks arrive under the same ID:
+    /// ```swift
+    /// Lumio.shared.configure(appKey: "lm_your_key")
+    /// Purchases.shared.logIn(Lumio.shared.userID) { _, _, _ in }
+    /// ```
+    ///
+    /// The identifier is persisted in the Keychain, which usually survives app
+    /// reinstalls on the same device. On first launch it is seeded from IDFV, so
+    /// upgrading from an earlier SDK version does not split existing users.
+    public var userID: String {
+        deviceID.identifier()
+    }
+
     /// Initialize the SDK with your app key.
     /// Call this once in your app's launch (e.g., `App.init()` or `application(_:didFinishLaunchingWithOptions:)`).
     ///
