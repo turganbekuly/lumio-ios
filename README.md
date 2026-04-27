@@ -13,6 +13,7 @@ Prescriptive analytics for indie iOS subscription apps. Drop in the SDK, connect
 - **Auto-Collected** — Platform (iPhone/iPad), iOS version, and source are detected automatically on `configure()`.
 - **RevenueCat Integration** — Purchase, trial, and renewal events flow in via server-to-server webhooks. No SDK code needed for revenue tracking.
 - **Offline Support** — Failed events are persisted to disk and retried on next launch.
+- **Sandbox auto-detection** — Debug builds (`#if DEBUG`) and TestFlight installs (sandbox receipt) are auto-tagged. The dashboard's Production / Sandbox toggle filters every chart accordingly. Sandbox events don't count toward your event limit, so you can hammer test events without burning quota.
 - **Privacy-First** — Uses IDFV (no ATT required). Zero personal data collected.
 
 ## Requirements
