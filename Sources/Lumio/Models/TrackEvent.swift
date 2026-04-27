@@ -18,10 +18,19 @@ struct TrackPayload: Codable, Sendable {
     let appID: String
     let userID: String
     let events: [TrackEvent]
+    let isSandbox: Bool
+
+    init(appID: String, userID: String, events: [TrackEvent], isSandbox: Bool = false) {
+        self.appID = appID
+        self.userID = userID
+        self.events = events
+        self.isSandbox = isSandbox
+    }
 
     enum CodingKeys: String, CodingKey {
         case appID = "app_id"
         case userID = "user_id"
         case events
+        case isSandbox = "is_sandbox"
     }
 }

@@ -79,7 +79,8 @@ actor EventQueue {
         let payload = TrackPayload(
             appID: config.appKey,
             userID: userID,
-            events: batch
+            events: batch,
+            isSandbox: config.isSandbox
         )
 
         let success = await networkClient.send(payload: payload, config: config)

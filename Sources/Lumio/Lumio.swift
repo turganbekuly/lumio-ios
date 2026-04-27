@@ -54,7 +54,8 @@ public final class Lumio: Sendable {
     public func configure(appKey: String, endpoint: URL? = nil) {
         let config = Configuration(
             appKey: appKey,
-            endpoint: endpoint ?? URL(string: "https://api.trylumio.app")!
+            endpoint: endpoint ?? URL(string: "https://api.trylumio.app")!,
+            isSandbox: Lumio.detectSandbox()
         )
         _config.withLock { $0 = config }
 
@@ -125,6 +126,31 @@ public final class Lumio: Sendable {
         Task {
             await queue.flush()
         }
+    }
+
+    // MARK: - Sandbox detection
+
+    /// Auto-detect whether the SDK is running in a sandbox build.
+    ///
+    /// - `#if DEBUG` covers Xcode local runs (Debug configuration).
+    /// - For Release builds, TestFlight installs ship with a sandbox
+    ///   `appStoreReceiptURL` — its last path component is `sandboxReceipt`
+    ///   instead of `receipt`. Production App Store builds get `receipt`.
+    ///
+    /// Note: builds run from Xcode against a `.storekit` configuration file
+    /// don't hit Apple's servers at all, so RevenueCat never fires webhooks
+    /// for those. The `#if DEBUG` branch still tags SDK events as sandbox so
+    /// the funnel side stays clean.
+    static func detectSandbox() -> Bool {
+        #if DEBUG
+        return true
+        #else
+        if let url = Bundle.main.appStoreReceiptURL,
+           url.lastPathComponent == "sandboxReceipt" {
+            return true
+        }
+        return false
+        #endif
     }
 
     // MARK: - Auto-Collection
