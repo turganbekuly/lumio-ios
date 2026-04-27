@@ -1,16 +1,17 @@
 # Lumio iOS SDK
 
-Revenue-first analytics for iOS subscription apps. Track your onboarding funnel, paywall performance, and core activation — then see exactly where users drop off and why.
+Prescriptive analytics for indie iOS subscription apps. Drop in the SDK, connect RevenueCat, and Lumio's 18-rule Advisor reads your funnel, compares it to your category's benchmarks, and tells you the single highest-leverage thing to fix next — with prescription, rationale, and revenue impact.
 
 ## Features
 
+- **Prescriptive Advisor** — 18 category-aware rules score your funnel, paywall, activation, cohorts, trials, retention, and pricing. Each recommendation comes with a prescription, rationale, and revenue impact estimate. Configure your app's category in the dashboard so benchmarks reflect your vertical (Productivity, Health & Fitness, Finance, Education, Social, Entertainment, Utility).
 - **Onboarding Funnel** — Track each step with `trackStep()`. See drop-off rates per screen.
-- **Paywall Analytics** — Track impressions with `trackPaywallView()`. Measure time-to-paywall velocity.
-- **Aha! Multiplier** — Track your core action with `trackCoreAction()`. See how Day-1 activation correlates with LTV.
+- **Paywall Analytics** — Track impressions with `trackPaywallView()`. Measure time-to-paywall velocity (the fastest 25% of users typically convert at 3-8x the slowest).
+- **Aha! Multiplier** — Track your core action with `trackCoreAction()`. See how Day-1 activation correlates with paid conversion and LTV.
 - **Cohort Segmentation** — Tag users with `identifyUser()`. Split your funnel by traffic source, user goal, or any custom property.
 - **Source Attribution** — Automatically detects Apple Search Ads vs organic. Includes a pre-built `SourcePickerView` for self-reported attribution.
 - **Auto-Collected** — Platform (iPhone/iPad), iOS version, and source are detected automatically on `configure()`.
-- **RevenueCat Integration** — Purchase and renewal events flow in via server-to-server webhooks. No SDK code needed for revenue tracking.
+- **RevenueCat Integration** — Purchase, trial, and renewal events flow in via server-to-server webhooks. No SDK code needed for revenue tracking.
 - **Offline Support** — Failed events are persisted to disk and retried on next launch.
 - **Privacy-First** — Uses IDFV (no ATT required). Zero personal data collected.
 
